@@ -4,10 +4,10 @@ from random import choice
 from wordlist import english_words
 
 DEFAULT_LETTERS_BY_FREQ = (
-        "EEEEEEEEEAAAAAAAOOOOOOIIIIUUU" +  # super-common
-        "RRRRRSSSSSSTTTTTLLLLNNN" +  # common
-        "BBCCDDFFGGHHKKMMPPYY" +  # less common
-        "JVWXZ")  # rare (we never include Q)
+    "EEEEEEEEEAAAAAAAOOOOOOIIIIUUU" +  # super-common
+    "RRRRRSSSSSSTTTTTLLLLNNN" +  # common
+    "BBCCDDFFGGHHKKMMPPYY" +  # less common
+    "JVWXZ")  # rare (we never include Q)
 
 
 class BoggleGame():
