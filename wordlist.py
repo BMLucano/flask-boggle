@@ -43,7 +43,6 @@ class WordList:
 
         """
 
-
         return word in self.words
 
 
