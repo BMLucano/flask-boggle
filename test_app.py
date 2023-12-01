@@ -46,4 +46,5 @@ class BoggleAppTestCase(TestCase):
             # print(game_id, board)
 
             self.assertIn(game_id, games)
-            self.assertIsNotNone(board)
+            self.assertTrue(board)
+
