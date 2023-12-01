@@ -34,5 +34,16 @@ class BoggleAppTestCase(TestCase):
         """Test starting a new game."""
 
         with app.test_client() as client:
-            ...
-            # write a test for this route
+            response = client.post("/api/new-game")
+            # print(response, "printing response")
+            # breakpoint()
+            payload = response.get_json()
+            # print(payload, "printing payload")
+
+            game_id = payload["game_id"]
+            board = payload["board"]
+            # breakpoint()
+            # print(game_id, board)
+
+            self.assertIn(game_id, games)
+            self.assertIsNotNone(board)
