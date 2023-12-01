@@ -48,3 +48,27 @@ class BoggleAppTestCase(TestCase):
             self.assertIn(game_id, games)
             self.assertTrue(board)
 
+    def test_api_score_word(self):
+        """Test scoring a word"""
+
+        with app.test_client() as client:
+            response = client.post("/api/new-game").get_json()
+            game_id = response["game_id"]
+            board = response["board"]
+
+            breakpoint()
+            print(game_id, "printing game id")
+            print(board, "printing board")
+
+            # change what the letters are on the board before you try to score
+            # the play
+
+            board[0] = ["K", "H", "N", "E", "O"]
+            board[1] = ["L", "C", "G", "G", "I"]
+            board[2] = ["R", "Y", "D", "A", "M"]
+            board[3] = ["I", "I", "E", "M", "K"]
+            board[4] = ["Y", "F", "J", "L", "L"]
+
+            # TODO: send a valid word to the score-word enpoint as JSON
+            # TODO: send a word not on the board to score-word endpoint as JSON
+            # TODO: send a gibberish word to score-word enpoint as JSON
