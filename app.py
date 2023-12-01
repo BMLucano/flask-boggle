@@ -17,6 +17,7 @@ def homepage():
     return render_template("index.html")
 
 
+# Needs to send and receive JSON
 @app.post("/api/new-game")
 def new_game():
     """Start a new game and return JSON: {game_id, board}."""
@@ -26,4 +27,4 @@ def new_game():
     game = BoggleGame()
     games[game_id] = game
 
-    return {"gameId": "need-real-id", "board": "need-real-board"}
+    return jsonify(game_id=game_id, board=game.board)
