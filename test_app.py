@@ -23,9 +23,12 @@ class BoggleAppTestCase(TestCase):
         with app.test_client() as client:
             response = client.get('/')
             html = response.get_data(as_text=True)
+
             # test that you're getting a template, both <form id='newWordForm'>
             # and <table class="board"> will work
-            self.assertIn('<table class="board">', html)
+            # self.assertIn('<!-- homepage -->', html)  # will also work
+
+            self.assertIn('<table class="board', html)
 
     def test_api_new_game(self):
         """Test starting a new game."""
