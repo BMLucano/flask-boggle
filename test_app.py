@@ -52,33 +52,54 @@ class BoggleAppTestCase(TestCase):
         """Test scoring a word"""
 
         with app.test_client() as client:
-            response = client.post("/api/new-game").get_json()
-            breakpoint()
-            print(response, "prinitng response")
-            game_id = response["game_id"]
-            # board = game["board"]
+            game = client.post("/api/new-game").get_json()
+            # breakpoint()
+            # print(game, "prinitng response")
+            game_id = game["game_id"]
+            game = games[game_id]
 
-            breakpoint()
-            print(game_id, "printing game id")
-            print(response["board"], "printing board")
+            # breakpoint()
+            # print(game_id, "printing game id")
+            # print(game.board, "printing board")
 
+            # Changes the source of truth games (from app.py)
             # change what the letters are on the board before you try to score
             # the play
 
-            response["board"][0] = ["K", "H", "N", "E", "O"]
-            response["board"][1] = ["L", "C", "G", "G", "I"]
-            response["board"][2] = ["R", "Y", "D", "A", "M"]
-            response["board"][3] = ["I", "I", "E", "M", "K"]
-            response["board"][4] = ["Y", "F", "J", "L", "L"]
-            breakpoint()
-            print(response["board"], "printing board after reassignment")
-            print(game_id, "printing game_id after reassignment")
-            # TODO: send a valid word to the score-word enpoint as JSON
-            # TODO: send a word not on the board to score-word endpoint as JSON
-            # TODO: send a gibberish word to score-word enpoint as JSON
+            game.board[0] = ["K", "H", "N", "E", "O"]
+            game.board[1] = ["L", "C", "G", "G", "I"]
+            game.board[2] = ["R", "Y", "D", "A", "M"]
+            game.board[3] = ["I", "I", "E", "M", "K"]
+            game.board[4] = ["Y", "F", "J", "L", "L"]
+            # breakpoint()
+            # print(game.board, "printing board after reassignment")
+            # print(game_id, "printing game_id after reassignment")
 
+            # Send a valid word to the score-word enpoint as JSON
             resp = client.post('/api/score-word',
                                json={'word': 'GAME', 'game_id': game_id})
             data = resp.get_json()
 
             self.assertEqual({'result': 'ok'}, data)
+
+            # Send a valid but lowercase word to the score-word endpoint as JSON
+            # FIXME: MIGHT FAIL
+            resp = client.post('/api/score-word',
+                               json={'word': 'game', 'game_id': game_id})
+            data = resp.get_json()
+
+            self.assertEqual({'result': 'ok'}, data)
+
+            # Send a word not on the board to score-word endpoint as JSON
+            resp = client.post('api/score-word',
+                               json={'word': 'SCHOOL', 'game_id': game_id})
+            data = resp.get_json()
+
+            self.assertEqual({'result': 'not-on-board'}, data)
+
+            # Send a gibberish word to score-word enpoint as JSON
+            resp = client.post('api/score-word',
+                               json={'word': 'THIFHDCK', 'game_id': game_id})
+            data = resp.get_json()
+
+            self.assertEqual({'result': 'not-word'}, data)
