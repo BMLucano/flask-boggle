@@ -53,22 +53,32 @@ class BoggleAppTestCase(TestCase):
 
         with app.test_client() as client:
             response = client.post("/api/new-game").get_json()
+            breakpoint()
+            print(response, "prinitng response")
             game_id = response["game_id"]
-            board = response["board"]
+            # board = game["board"]
 
             breakpoint()
             print(game_id, "printing game id")
-            print(board, "printing board")
+            print(response["board"], "printing board")
 
             # change what the letters are on the board before you try to score
             # the play
 
-            board[0] = ["K", "H", "N", "E", "O"]
-            board[1] = ["L", "C", "G", "G", "I"]
-            board[2] = ["R", "Y", "D", "A", "M"]
-            board[3] = ["I", "I", "E", "M", "K"]
-            board[4] = ["Y", "F", "J", "L", "L"]
-
+            response["board"][0] = ["K", "H", "N", "E", "O"]
+            response["board"][1] = ["L", "C", "G", "G", "I"]
+            response["board"][2] = ["R", "Y", "D", "A", "M"]
+            response["board"][3] = ["I", "I", "E", "M", "K"]
+            response["board"][4] = ["Y", "F", "J", "L", "L"]
+            breakpoint()
+            print(response["board"], "printing board after reassignment")
+            print(game_id, "printing game_id after reassignment")
             # TODO: send a valid word to the score-word enpoint as JSON
             # TODO: send a word not on the board to score-word endpoint as JSON
             # TODO: send a gibberish word to score-word enpoint as JSON
+
+            resp = client.post('/api/score-word',
+                               json={'word': 'GAME', 'game_id': game_id})
+            data = resp.get_json()
+
+            self.assertEqual({'result': 'ok'}, data)
