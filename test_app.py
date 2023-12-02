@@ -83,7 +83,6 @@ class BoggleAppTestCase(TestCase):
             self.assertEqual({'result': 'ok'}, data)
 
             # Send a valid but lowercase word to the score-word endpoint as JSON
-            # FIXME: MIGHT FAIL
             resp = client.post('/api/score-word',
                                json={'word': 'game', 'game_id': game_id})
             data = resp.get_json()
