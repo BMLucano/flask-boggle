@@ -45,6 +45,9 @@ class BoggleAppTestCase(TestCase):
             # breakpoint()
             # print(game_id, board)
 
+            # cant check the exact game_id or board, but we can check their type
+            # check for valid game_id = str
+            # check for valid board = lst of lsts
             self.assertIn(game_id, games)
             self.assertTrue(board)
 
@@ -52,10 +55,10 @@ class BoggleAppTestCase(TestCase):
         """Test scoring a word"""
 
         with app.test_client() as client:
-            game = client.post("/api/new-game").get_json()
+            game_data = client.post("/api/new-game").get_json()
             # breakpoint()
-            # print(game, "prinitng response")
-            game_id = game["game_id"]
+            # print(game_data, "printing game_data")
+            game_id = game_data["game_id"]
             game = games[game_id]
 
             # breakpoint()
@@ -71,6 +74,7 @@ class BoggleAppTestCase(TestCase):
             game.board[2] = ["R", "Y", "D", "A", "M"]
             game.board[3] = ["I", "I", "E", "M", "K"]
             game.board[4] = ["Y", "F", "J", "L", "L"]
+
             # breakpoint()
             # print(game.board, "printing board after reassignment")
             # print(game_id, "printing game_id after reassignment")

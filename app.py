@@ -32,14 +32,21 @@ def new_game():
 
 @app.post("/api/score-word")
 def score_word():
-    """Recieves JSON. Check if word is legal, score it and return JSON"""
+    """Receives JSON. Check if word is legal, score it and return JSON"""
+    # Show examples of what JSON it recieves --> write out the data structure
+    # Recieves JSON:{}
+    # Show examples of what JSON it returns
+    # Returns JSON: {result: ok}
+
     word = request.json["word"].upper()
     game_id = request.json["game_id"]
     game = games[game_id]
 
     if not game.is_word_in_word_list(word):
         return jsonify(result="not-word")
-    if not game.check_word_on_board(word):
+
+    elif not game.check_word_on_board(word):
         return jsonify(result="not-on-board")
-    if game.is_word_not_a_dup(word):
+
+    elif game.is_word_not_a_dup(word):
         return jsonify(result="ok")
